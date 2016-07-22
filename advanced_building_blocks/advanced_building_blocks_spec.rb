@@ -34,7 +34,16 @@ require_relative 'advanced_building_blocks'
       end
     end
 
-  	context '#my_all?'
+  	context '#my_all?'  do
+      it 'returns true if all items in array match criteria' do
+        expect(my_array.my_all? { |x| x > 0 }).to eql true
+      end
+
+      it 'returns false if any of the items do not match' do 
+        expect(my_array.my_all? { |x| x > 1}).to eql false
+      end
+    end
+
   	context '#my_any?'
   	context '#my_none?'
   	context '#my_count'

@@ -36,4 +36,10 @@ class Array
   	return_array
   end
 
+  def my_all?
+  	return_array = []
+  	my_each { |x| return_array << 0 if !yield(x)}
+  	return_array.include?(0) ? false : true
+  end
+
 end
