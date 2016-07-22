@@ -26,7 +26,13 @@ require_relative 'advanced_building_blocks'
       end
     end
 
-  	context '#my_select'
+  	context '#my_select' do
+      it 'finds items in an array that match certain criteria' do
+        new_array = []
+        new_array = my_array.my_select { |x| x > 3 }
+        expect(new_array).to eql([4,4])
+      end
+    end
 
   	context '#my_all?'
   	context '#my_any?'

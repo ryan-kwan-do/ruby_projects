@@ -30,4 +30,10 @@ class Array
   	end
   end
 
+  def my_select
+  	return_array = []
+  	my_each { |x| return_array << x if yield(x)}
+  	return_array
+  end
+
 end
