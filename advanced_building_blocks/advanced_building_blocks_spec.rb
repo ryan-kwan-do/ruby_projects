@@ -44,7 +44,15 @@ require_relative 'advanced_building_blocks'
       end
     end
 
-  	context '#my_any?'
+  	context '#my_any?' do
+      it 'returns true if at least one item matches block criteria' do 
+        expect(my_array.my_any? { |x| x > 3 }).to eql true
+      end
+      it 'returns false if no items match block criteria' do
+        expect(my_array.my_any? { |x| x > 4}).to eql false
+      end
+    end
+
   	context '#my_none?'
   	context '#my_count'
   	context '#my_map'

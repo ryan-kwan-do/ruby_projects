@@ -30,6 +30,7 @@ class Array
   	end
   end
 
+#making use of the original my_each to be lazier
   def my_select
   	return_array = []
   	my_each { |x| return_array << x if yield(x)}
@@ -40,6 +41,17 @@ class Array
   	return_array = []
   	my_each { |x| return_array << 0 if !yield(x)}
   	return_array.include?(0) ? false : true
+  end
+
+#building this one from scratch just for kicks
+  def my_any?
+  	return_array = []
+  	i = 0
+  	while i < self.size
+  	  yield(self[i]) ? return_array << 1 : return_array << 0
+  	  i += 1
+  	end
+  	return_array.include?(1)
   end
 
 end
