@@ -54,4 +54,9 @@ class Array
   	return_array.include?(1)
   end
 
+#the opposite of my_any?
+  def my_none?
+    !self.my_any? {|x| yield(x)}
+  end
+
 end

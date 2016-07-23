@@ -53,7 +53,14 @@ require_relative 'advanced_building_blocks'
       end
     end
 
-  	context '#my_none?'
+  	context '#my_none?' do
+      it 'returns true if no items match block criteria' do
+        expect(my_array.my_none? { |x| x > 5}).to eql true
+      end
+      it 'returns false if an item matches block criteria' do 
+        expect(my_array.my_none? { |x| x < 5}).to eql false
+      end
+    end
   	context '#my_count'
   	context '#my_map'
   	context '#my_inject'
