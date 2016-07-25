@@ -15,10 +15,8 @@ class Array
   end
 
   def my_each
-  	i = 0
-  	while i < self.size
+  	for i in 0..self.size - 1
   		yield self[i]
-  		i += 1
   	end
   end
 
@@ -57,6 +55,20 @@ class Array
 #the opposite of my_any?
   def my_none?
     !self.my_any? {|x| yield(x)}
+  end
+
+  def my_count(value = nil)
+  	i = 0
+  	if block_given?
+  	  my_each {|x| i+=1 if yield(x)}
+  	elsif !value
+  	  i = self.size
+  	else
+  	  my_each do |x|
+  	  	i += 1 if x == value
+  	  end
+  	end
+  	i
   end
 
 end
