@@ -8,6 +8,16 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5, "0")[0..4]
 end
 
+def clean_phone_number(number)
+  string_number = number.to_s
+  if string_number.length == 10 
+  	string_number[0..9]
+  elsif string_number.length == 11 && string_number[0] == "1"
+  	string_number[1..10]
+  else "Invalid mobile number"
+  end
+end
+
 def legislators_by_zipcode(zipcode)
   Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
@@ -22,7 +32,7 @@ def save_thank_you_letters(id,form_letter)
   end
 end
 
-
+=begin
 contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 
 template_letter = File.read "form_letter.erb"
@@ -39,6 +49,7 @@ contents.each do |row|
 
   form_letter = erb_template.result(binding)
 
-  #save_thank_you_letters(id, form_letter)
+  save_thank_you_letters(id, form_letter)
 end
+=end
 
