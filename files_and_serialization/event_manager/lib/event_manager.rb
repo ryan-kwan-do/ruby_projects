@@ -24,12 +24,21 @@ def legislators_by_zipcode(zipcode)
 end
 
 def peak_hours(contents)
-	#works but can handle some dates
+  count_hash = Hash.new
+  hour_array = Array.new
+
   contents.each do |row|
   	reg_date_format = '%m/%d/%y %H:%M'
     reg_date = DateTime.strptime(row[:regdate], reg_date_format)
-    puts reg_date.hour
+    hour_array << reg_date.hour
   end
+
+  hour_array.each do |hour|
+  	count_hash[hour].nil? ? count_hash[hour] = 1 : count_hash[hour] += 1
+  end
+
+  count_hash.each {|key, value| puts "Hour: #{key}, Count: #{value}"}
+
 end
 
 def save_thank_you_letters(id,form_letter)
