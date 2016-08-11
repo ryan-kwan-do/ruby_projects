@@ -1,6 +1,7 @@
 require "csv"
 require "sunlight/congress"
 require "erb"
+require "date"
 
 Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
@@ -22,6 +23,15 @@ def legislators_by_zipcode(zipcode)
   Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
 
+def peak_hours(contents)
+	#works but can handle some dates
+  contents.each do |row|
+  	reg_date_format = '%m/%d/%y %H:%M'
+    reg_date = DateTime.strptime(row[:regdate], reg_date_format)
+    puts reg_date.hour
+  end
+end
+
 def save_thank_you_letters(id,form_letter)
   Dir.mkdir("output") unless Dir.exists?("output")
 
@@ -32,12 +42,12 @@ def save_thank_you_letters(id,form_letter)
   end
 end
 
-=begin
 contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 
 template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter
-
+=begin
+	
 #begin control flow
 puts "Event manager initialized!"
 contents.each do |row|
