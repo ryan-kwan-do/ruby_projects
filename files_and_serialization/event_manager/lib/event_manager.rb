@@ -23,21 +23,42 @@ def legislators_by_zipcode(zipcode)
   Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
 
-def peak_hours(contents)
-  count_hash = Hash.new
-  hour_array = Array.new
+def convert_date(contents)
+
+  date_array = Array.new
 
   contents.each do |row|
   	reg_date_format = '%m/%d/%y %H:%M'
     reg_date = DateTime.strptime(row[:regdate], reg_date_format)
-    hour_array << reg_date.hour
+    date_array << reg_date
   end
 
-  hour_array.each do |hour|
-  	count_hash[hour].nil? ? count_hash[hour] = 1 : count_hash[hour] += 1
+  date_array
+
+end
+
+def peak_hours(contents)
+
+  count_hour = Hash.new
+  date_array = convert_date(contents)
+
+  date_array.each do |date|
+  	count_hour[date.hour].nil? ? count_hour[date.hour] = 1 : count_hour[date.hour] += 1
   end
 
-  count_hash.each {|key, value| puts "Hour: #{key}, Count: #{value}"}
+  count_hour.sort.each {|key, value| puts "Hour: #{key}, Count: #{value}"}
+
+end
+
+def peak_day(contents)
+  count_day = Hash.new
+  date_array = convert_date(contents)
+
+  date_array.each do |date|
+  	count_day[date.strftime('%A')].nil? ? count_day[date.strftime('%A')] = 1 : count_day[date.strftime('%A')] += 1
+  end
+
+  count_day.sort.each {|key, value| puts "Day: #{key}, Count: #{value}"}
 
 end
 
