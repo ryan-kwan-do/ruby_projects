@@ -6,7 +6,7 @@ module Hangman
     end
 
     def start_new_game
-      
+      @output.puts 'Welcome to Hangman!'
     end
   end
 end

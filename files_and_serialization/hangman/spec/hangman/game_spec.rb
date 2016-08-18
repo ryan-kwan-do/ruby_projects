@@ -7,8 +7,8 @@ module Hangman
 
   	describe '#start_new_game' do
   	  it 'displays a welcome message' do
-  	  	game.start_new_game
   	  	expect(display_output).to receive(:puts).with('Welcome to Hangman!')
+  	  	game.start_new_game
   	  end
   	  it 'displays a blank board'
   	  it 'displays the remaining number of incorrect guesses'
