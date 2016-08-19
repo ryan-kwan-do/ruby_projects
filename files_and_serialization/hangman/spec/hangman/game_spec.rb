@@ -10,6 +10,10 @@ module Hangman
   	  	expect(display_output).to receive(:puts).with('Welcome to Hangman!')
   	  	game.start_new_game
   	  end
+  	  it 'assigns a word from the dictionary to word' do
+  	  	game.start_new_game
+  	  	expect(game.word).to be_a(String)
+  	  end
   	  it 'displays a blank board'
   	  it 'displays the remaining number of incorrect guesses'
   	end
