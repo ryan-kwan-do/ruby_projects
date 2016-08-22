@@ -14,8 +14,19 @@ module Hangman
   	  	game.start_new_game
   	  	expect(game.word).to be_a(String)
   	  end
-  	  it 'displays a blank board'
-  	  it 'displays the remaining number of incorrect guesses'
+  	  it 'displays a blank board' 
+  	  it 'displays the remaining number of incorrect guesses' do
+  	  	expect(display_output).to receive(:puts).with('You can make 9 more mistakes before the man hangs.')
+  	  	game.start_new_game
+  	  	expect(game.guesses).to eql 9	  	
+  	  end	
+  	end
+  	describe '#display_board' do
+  	  it 'outputs the current board' do
+  	  	game.word = 'apple'
+  	  	expect(display_output).to receive(:puts).with('_ _ _ _ _')
+  	  	game.display_board
+  	  end
   	end
   	describe '#player_guess' do
   	  context 'one letter correct'
