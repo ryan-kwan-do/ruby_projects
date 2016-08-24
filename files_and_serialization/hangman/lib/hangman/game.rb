@@ -44,6 +44,12 @@ module Hangman
       @allowed_guesses == 0 ? true : false
     end
 
+    def player_win?
+      truth = []
+      @word.split('').each { |letter| truth << @guess_array.include?(letter) }
+      truth.all?
+    end
+
     def gameover
       @output.puts 'Gameover! You failed to stop the hanging!'
       exit(false)
@@ -84,7 +90,13 @@ module Hangman
       @guess_array << guess
 
       evaluate_guess(guess)
-      
+
+      if player_win?
+      	victory
+      elsif player_lose?
+      	gameover
+      end
+
       display_board
     end
   end

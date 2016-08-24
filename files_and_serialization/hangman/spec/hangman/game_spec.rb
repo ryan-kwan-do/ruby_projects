@@ -89,6 +89,13 @@ module Hangman
   	  	expect(game.gameover).raise_exception(SystemExit)
   	  end
   	end
+  	describe '#player_win?' do
+  	  it 'returns true if all the letters of the word have been guessed' do
+  	  	game.word = 'apple'
+  	  	game.guess_array = ['a','e','p','l']
+  	  	expect(game.player_win?).to be true
+  	  end
+  	end
   	describe '#victory' do
   	  it 'displays a victory message' do
   	  	game.victory

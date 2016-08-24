@@ -3,3 +3,7 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'hangman'
 
 game = Hangman::Game.new(STDOUT)
+
+game.start_new_game
+
+game.player_guess(gets.chomp) while true
