@@ -1,9 +1,10 @@
 require 'spec_helper'
+require 'stringio'
 
 module Hangman
   describe Game do
   	let(:display_output) { double('display_output').as_null_object }
-  	let(:game) { Game.new(display_output)}
+  	let(:game) { Game.new(display_output)}  	  
 
   	describe '#start_new_game' do
   	  it 'displays a welcome message' do
@@ -27,6 +28,14 @@ module Hangman
   	  	game.display_board
   	  end
   	end
+
+  	describe '#correct_guess?' do
+  	  it 'evaluates a player guess and returns true / false' do
+  	  	game.word = 'apple'
+  	  	expect(game.correct_guess?('l')).to be true
+  	  end
+  	end
+
   	describe '#player_guess' do
   	  context 'first correct guess' do
   	  	it 'displays the letter on the board' do
@@ -37,7 +46,7 @@ module Hangman
   	  	it 'treats all letters as capital letters' do
   	  	  game.word = 'apple'
   	  	  expect(display_output).to receive(:puts).with('_ _ _ l _')
-  	  	  game.player_guess('L')
+  	  	  game.player_guess('l')
   	  	end
   	  	it 'displays all instances of a correctly guessed letter' do
   	  	  game.word = 'apple'
@@ -62,7 +71,7 @@ module Hangman
   	  	it 'increases the number of incorrect guesses by 1' do
   	  	  game.word = 'apple'
   	  	  game.player_guess('x')
-  	  	  expect(game.guesses).to eql 8
+  	  	  expect(game.allowed_guesses).to eql 8
   	  	end
   	  	it 'outputs a message that the guess was incorrect' do
   	  	  game.word = 'apple'
