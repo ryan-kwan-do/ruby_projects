@@ -39,11 +39,23 @@ module Hangman
     def correct_guess?(guess)
       @word.split('').include?(guess)
     end
+    #matches guess_array to word
+    def player_lose?
+      @allowed_guesses == 0 ? true : false
+    end
 
-    def player_guess(guess)
-      guess.downcase!
-      #checks if guess is valid
-      while duplicate_guess?(guess) || bad_guess?(guess)
+    def gameover
+      @output.puts 'Gameover! You failed to stop the hanging!'
+      exit(false)
+  	end
+
+  	def victory
+  	  @output.puts 'You win!'
+  	  exit(false)
+  	end
+
+  	def get_valid_guess(guess)
+  	  while duplicate_guess?(guess) || bad_guess?(guess)
 		if duplicate_guess?(guess)
 		  @output.puts "You already guessed that letter!"
 		  guess = gets.chomp.downcase
@@ -52,8 +64,9 @@ module Hangman
 		  guess = gets.chomp.downcase
 		end
 	  end
-      @guess_array << guess
+    end
 
+    def evaluate_guess(guess)
       if correct_guess?(guess)
       	@output.puts "Correct!"
       else
@@ -61,7 +74,17 @@ module Hangman
       	@allowed_guesses -= 1
       	display_guesses
       end
+    end
 
+    def player_guess(guess)
+      guess.downcase!
+
+      get_valid_guess(guess)
+
+      @guess_array << guess
+
+      evaluate_guess(guess)
+      
       display_board
     end
   end

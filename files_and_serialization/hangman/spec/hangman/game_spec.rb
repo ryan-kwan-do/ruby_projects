@@ -80,8 +80,24 @@ module Hangman
   	  	end
   	  end
   	end
-  	describe '#player_lose'
-  	describe '#player_win'
+  	describe '#gameover' do
+  	  it 'displays a losing message' do
+  	  	game.gameover
+  	  	expect(display_output).to receive(:puts).with('Gameover! You failed to stop the hanging!')
+  	  end
+  	  it 'exits the program' do
+  	  	expect(game.gameover).raise_exception(SystemExit)
+  	  end
+  	end
+  	describe '#victory' do
+  	  it 'displays a victory message' do
+  	  	game.victory
+  	  	expect(display_output).to receive(:puts).with('You win!')
+  	  end
+  	  it 'exits the program' do
+  	  	expect(game.victory).raise_exception(SystemExit)
+  	  end
+  	end
 
   end
 end
