@@ -14,11 +14,10 @@ module Hangman
   	  	game.start_new_game
   	  	expect(game.word).to be_a(String)
   	  end
-  	  it 'displays a blank board' 
   	  it 'displays the remaining number of incorrect guesses' do
   	  	expect(display_output).to receive(:puts).with('You can make 9 more mistakes before the man hangs.')
   	  	game.start_new_game
-  	  	expect(game.guesses).to eql 9	  	
+  	  	expect(game.allowed_guesses).to eql 9	  	
   	  end	
   	end
   	describe '#display_board' do
@@ -29,9 +28,48 @@ module Hangman
   	  end
   	end
   	describe '#player_guess' do
-  	  context 'one letter correct'
-  	  context 'more than one letter correct'
-  	  context 'no letters correct'
+  	  context 'first correct guess' do
+  	  	it 'displays the letter on the board' do
+  	  	  game.word = 'apple'
+  	  	  expect(display_output).to receive(:puts).with('_ _ _ l _')
+  	  	  game.player_guess('l')
+  	  	end
+  	  	it 'treats all letters as capital letters' do
+  	  	  game.word = 'apple'
+  	  	  expect(display_output).to receive(:puts).with('_ _ _ l _')
+  	  	  game.player_guess('L')
+  	  	end
+  	  	it 'displays all instances of a correctly guessed letter' do
+  	  	  game.word = 'apple'
+  	  	  expect(display_output).to receive(:puts).with('_ p p _ _')
+  	  	  game.player_guess('p')
+  	  	end
+  	  	it 'displays a message that guess was correct' do
+  	  	  game.word = 'apple'
+  	  	  expect(display_output).to receive(:puts).with('Correct!')
+  	  	  game.player_guess('p')
+  	  	end  	  		
+  	  end
+  	  context 'correct guess, more than one letter correct' do
+  	  	it 'displays all correct letters' do
+  	  	  game.word = 'apple'
+  	  	  game.guess_array = ['a']
+  	  	  expect(display_output).to receive(:puts).with('a _ _ l _')
+  	  	  game.player_guess('l')
+  	  	end
+  	  end
+  	  context 'letter incorrect' do
+  	  	it 'increases the number of incorrect guesses by 1' do
+  	  	  game.word = 'apple'
+  	  	  game.player_guess('x')
+  	  	  expect(game.guesses).to eql 8
+  	  	end
+  	  	it 'outputs a message that the guess was incorrect' do
+  	  	  game.word = 'apple'
+  	  	  expect(display_output).to receive(:puts).with('Incorrect guess!')
+  	  	  game.player_guess('x')
+  	  	end
+  	  end
   	end
   	describe '#player_lose'
   	describe '#player_win'
