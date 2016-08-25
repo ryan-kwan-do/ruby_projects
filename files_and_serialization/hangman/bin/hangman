@@ -4,6 +4,10 @@ require 'hangman'
 
 game = Hangman::Game.new(STDOUT)
 
-game.start_new_game
+puts 'Would you like to load the last saved game?'
+puts "Enter 'Y' to load a saved game, 'N' to start new."
+
+#Begin with option to load saved game (if exists, load, else start new)
+game.player_chooses_new_or_old(gets.chomp)
 
 game.player_guess(gets.chomp) while true

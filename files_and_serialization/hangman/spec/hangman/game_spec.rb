@@ -106,5 +106,21 @@ module Hangman
   	  end
   	end
 
+  	#Couldn't find pstore-specific rspec. If anyone has suggestions let me know!
+  	describe '#save_game' do
+  	  it 'saves the values from game to pstore file' do
+  	  	game.word = 'apple'
+  	  	game.guess_array = ['a','b']
+  	  	game.allowed_guesses = 8
+  	  	game.save_game
+  	  	expect('savedgame').to be_an_existing_file
+  	  end
+  	  it 'exits the program' do
+  	  	expect(game.save_game).raise_exception(SystemExit)
+  	  end
+  	end
+  	describe '#load_game' 
+  	  it 'assigns variables from pstore file' 
+
   end
 end

@@ -1,3 +1,5 @@
+require 'pstore'
+
 module Hangman
   class Game
 
@@ -10,14 +12,25 @@ module Hangman
       @allowed_guesses = 9
     end
 
+    def player_chooses_new_or_old(decision)
+      if decision.downcase == 'y' && File.exist?("savedgame")
+      	load_game
+      elsif decision.downcase == 'y'
+        @output.puts 'No saved game exists. Starting a new game!'
+        start_new_game	       
+      else
+      	start_new_game
+      end
+    end
+
     def start_new_game
       @output.puts 'Welcome to Hangman!'
+      @output.puts "Type 'save' at the beginning of any turn to save your game for later."
       @word = Word.new.new_word
       display_board
       display_guesses
     end
 
-    #need to create "allowed guess count function"
     def display_guesses
       @output.puts 'You can make ' + @allowed_guesses.to_s + ' more mistakes before the man hangs.'
     end
@@ -85,6 +98,8 @@ module Hangman
     def player_guess(guess)
       guess.downcase!
 
+      save_game if guess == 'save'
+
       get_valid_guess(guess)
 
       @guess_array << guess
@@ -98,6 +113,34 @@ module Hangman
       end
 
       display_board
+    end
+
+    def save_game
+      store = PStore.new("savedgame")
+      store.transaction do
+      	store[:word] = Array.new
+      	store[:word] << @word
+
+      	store[:guess_array] = Array.new
+      	store[:guess_array] << @guess_array
+
+      	store[:allowed_guesses] = Array.new
+      	store[:allowed_guesses] << @allowed_guesses
+      end
+    @output.puts 'Game saved! Bye!'
+    exit(false)
+    end
+
+    def load_game
+      store = PStore.new("savedgame")
+      store.transaction do
+      	@word = store[:word][-1].to_s
+      	@guess_array = store[:guess_array][-1]
+      	@allowed_guesses = store[:allowed_guesses][-1]
+      end
+      @output.puts 'Saved game loaded!'
+      display_board
+      display_guesses
     end
   end
 end
