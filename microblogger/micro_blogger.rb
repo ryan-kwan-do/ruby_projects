@@ -16,6 +16,21 @@ class MicroBlogger
  	end
   end
 
+  def dm(target, message)
+  	puts "Trying to send #{target} this direct message:"
+    puts message
+    if followers_list.include?(target)
+      message = "d @#{target} #{message}"
+      tweet(message)
+    else
+      puts "Sending message failed. #{target.capitalize} not one of your followers."
+    end
+  end
+
+  def followers_list
+    @client.followers.collect { |follower| @client.user(follower).screen_name }
+  end
+
   def run
   	puts "Welcome to the JSL Twitter Client!"
   	command = ""
@@ -27,6 +42,9 @@ class MicroBlogger
       case command
         when 'q' then puts "Goodbye!"
         when 't' then tweet(parts[1..-1].join(" "))
+        when 'dm' then dm(parts[1], parts[2..-1].join(" "))
+        when 'l' then followers_list.each {|follower| puts follower}
+
           else
           puts "Sorry, I don't know how to #{command}"
       end
